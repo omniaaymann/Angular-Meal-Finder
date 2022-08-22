@@ -1,0 +1,73 @@
+<div class="container">
+  <h1>Meal Finder</h1>
+  <div class="flex">
+    <form action="" class="flex" id="submit" #f="ngForm">
+      <input
+        type="text"
+        id="search"
+        placeholder="Search for meals or keywords"
+        name="searchInput"
+        ngModel
+        required
+        #searchInput
+        #search="ngModel"
+      />
+
+      <button
+        class="search-btn"
+        type="button"
+        (click)="onSearchMeal()"
+        [disabled]="!f.valid"
+      >
+        <i class="fa fa-search"></i>
+      </button>
+    </form>
+    <button class="random-btn" id="random" (click)="onGetRandomMeal()">
+      <i class="fa fa-random"></i>
+    </button>
+  </div>
+  <small
+    style="
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      font-weight: bold;
+    "
+    *ngIf="search.invalid && search.touched"
+    >Please enter a valid search input</small
+  >
+  <small *ngIf="!foundInput ">There are no search results. Try again!</small>
+
+  <div id="result-heading">
+    <h2 *ngIf="resultHeading && foundInput && !randomSelectOption">
+      Search results for '{{ resultHeading }}'
+    </h2>
+  </div>
+  <div id="meals" class="meals">
+    <div
+      class="meal"
+      *ngFor="let meal of meals"
+      (click)="onGetMealDetails(meal.mealId)"
+    >
+      <img [src]="meal.mealImg" alt="" />
+      <div class="meal-info">
+        <h3>{{ meal.mealTitle }}</h3>
+      </div>
+    </div>
+  </div>
+  <div id="single-meal" *ngIf="meal" class="single-meal">
+    <h1>{{ meal.strMeal }}</h1>
+    <img [src]="meal.strMealThumb" [alt]="meal.strMeal" />
+    <div class="single-meal-info">
+      <p *ngIf="meal.strCategory">{{ meal.strCategory }}</p>
+      <p *ngIf="meal.strArea">{{ meal.strArea }}</p>
+    </div>
+    <div class="main">
+      <p>{{ meal.strInstructions }}</p>
+      <h2>Ingredients</h2>
+      <ul>
+        <li *ngFor="let ingredient of ingredients">{{ ingredient }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
